@@ -1,0 +1,41 @@
+ddrescue for Mere Mortals - command card
+========================================
+
+Install and check
+  sudo apt install gddrescue       (NOT the "ddrescue" package)
+  ddrescue --version               (must say "GNU ddrescue")
+  ddrescuelog --version
+
+The shape of every rescue
+  ddrescue [options] infile outfile mapfile
+  Never omit the mapfile. Never point outfile at the patient.
+
+First pass - bank the easy data
+  ddrescue -n patient.img rescued.img rescue.map
+  ddrescue -n /dev/sdX /mnt/healthy/rescue.img rescue.map
+
+Second visit - scrape and retry
+  ddrescue -r3 patient.img rescued.img rescue.map
+
+Ask the mapfile how it is going
+  ddrescuelog -t rescue.map              totals per state
+  ddrescuelog -D rescue.map              exit 0 only if ALL bytes in
+  ddrescuelog -l - -b 1048576 rescue.map bad blocks, MiB-granular
+  ddrescuelog -A rescue.map              annotated mapfile
+
+Stop and resume
+  Ctrl-C is safe. Resume = the same command again.
+  cp rescue.map rescue.map.bak           between sessions
+
+Merge a second damaged copy (same output, same mapfile)
+  ddrescue copy-a.img merged.img merged.map
+  ddrescue -r1 copy-b.img merged.img merged.map   (-r reopens bad blocks)
+
+Pieces and throttles
+  ddrescue -i 0 -s 64MiB patient.img head.img head.map   one region
+  ddrescue -n --max-read-rate=20MiB ...                  be gentle
+
+Devices
+  -f   required to write the outfile TO a device
+  -d   direct I/O on the input (real drives)
+  Root to read /dev/sdX. Verify device letters twice.

@@ -1,0 +1,23 @@
+# Ground truth, counted by an independent script
+# that compares the rescued file against the
+# original block by block (4096-byte blocks):
+$ python3 ddrescue-lab/fixtures/compare-blocks.py original.img rescued.img 4096
+block size:        4096 bytes
+blocks compared:   16384 (67108864 bytes)
+blocks identical:  15358 (62906368 bytes recovered)
+blocks differing:  1026 (4202496 bytes lost)
+  lost blocks 2560-2815  (bytes 10485760-11534335)
+  lost blocks 7936-7937  (bytes 32505856-32514047)
+  lost blocks 12800-13567  (bytes 52428800-55574527)
+
+# Cross-check at region granularity: sha256 of each
+# 1 MiB region of rescued.img that differs from
+# the original table in t01:
+region 10 differs
+region 31 differs
+region 50 differs
+region 51 differs
+region 52 differs
+# (regions 10, 31 and 50-52 are the damaged ones;
+# region 31 differs only in its first 8 KiB, which
+# the 4096-byte accounting above counts exactly)

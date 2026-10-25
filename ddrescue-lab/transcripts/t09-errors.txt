@@ -1,0 +1,7 @@
+# An error the lab produced on purpose for the
+# troubleshooting chapter: input and output the
+# same file. ddrescue refuses rather than eat the
+# patient.
+$ ddrescue patient.img patient.img same.map
+ddrescue: patient.img: Infile and outfile are the same.
+exit: 1

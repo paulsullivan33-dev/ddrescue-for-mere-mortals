@@ -1,0 +1,60 @@
+# Interruption, on purpose. A fresh 128 MiB patient,
+# one dead MiB at MiB 100, and the read rate capped
+# so the copy is still young when we stop it.
+$ ddrescue --max-read-rate=4MiB patient2.img rescued2.img rescue2.map &
+$ sleep 6; kill -INT %1     # Ctrl-C, delivered by kill
+
+# What the interrupted run printed last:
+pct rescued:   19.04%, read errors:        0,  remaining time:         30s
+                              time since last successful read:          0s
+  Interrupted by user
+
+# The mapfile it left behind (comments trimmed):
+0x01860000     ?               1
+0x00000000  0x01860000  +
+0x01860000  0x067A0000  ?
+
+$ ddrescuelog -t rescue2.map
+
+   current pos:   25559 kB,  current status: copying
+mapfile extent:  134217 kB,  in      2 area(s)
+
+     non-tried:  108658 kB,  in      1 area(s)  ( 80.96%)
+       rescued:   25559 kB,  in      1 area(s)  ( 19.04%)
+   non-trimmed:        0 B,  in      0 area(s)  (  0%)
+   non-scraped:        0 B,  in      0 area(s)  (  0%)
+    bad-sector:        0 B,  in      0 area(s)  (  0%)
+# Resume: same command, same mapfile, no rate cap.
+# Watch the first status block: ipos starts at
+# 25559 kB -- the 19% already rescued is not re-read.
+$ ddrescue patient2.img rescued2.img rescue2.map
+rescued: 25559 kB, tried: 0 B, bad-sector: 0 B, bad areas: 0
+[A[A[A[A[A[A     ipos:   25559 kB, non-trimmed:        0 B,  current rate:       0 B/s
+  rescued:   25559 kB,   bad areas:        0,        run time:          0s
+pct rescued:   19.04%, read errors:        0,  remaining time:         n/a
+Copying non-tried blocks... Pass 1 (forwards)
+[A[A[A[A[A[A     ipos:   86704 kB, non-trimmed:        0 B,  current rate:  61145 kB/s
+  rescued:   86704 kB,   bad areas:        0,        run time:          1s
+pct rescued:   64.59%, read errors:        0,  remaining time:          1s
+[A[A[A[A[A[A     ipos:  134152 kB, non-trimmed:   262144 B,  current rate:  61145 kB/s
+  rescued:  132972 kB,   bad areas:        0,        run time:          1s
+pct rescued:   99.07%, read errors:        4,  remaining time:          1s
+     ipos:  106037 kB, non-trimmed:   262144 B,  current rate:  61145 kB/s
+pct rescued:   99.07%, read errors:        4,  remaining time:         n/a
+Copying non-tried blocks... Pass 2 (backwards)
+
+$ ddrescuelog -t rescue2.map
+
+   current pos:  105905 kB,  current status: finished
+mapfile extent:  134217 kB,  in      3 area(s)
+
+     non-tried:        0 B,  in      0 area(s)  (  0%)
+       rescued:  133169 kB,  in      2 area(s)  ( 99.22%)
+   non-trimmed:        0 B,  in      0 area(s)  (  0%)
+   non-scraped:        0 B,  in      0 area(s)  (  0%)
+    bad-sector:    1048 kB,  in      1 area(s)  (  0.78%)
+
+# The dead MiB at MiB 100, as left in the mapfile:
+0x064FFC00     +               1
+0x06400000  0x00100000  -
+0x06500000  0x01B00000  +

@@ -1,0 +1,40 @@
+# Second visit, days later in guide-time: the same
+# command a real rescue would use. No -n this time,
+# and -r2 asks for two extra retries of every bad
+# sector after scraping. The shim still declares the
+# ranges dead, so this is the pessimistic case:
+# nothing more can be squeezed out.
+$ ddrescue -r2 patient.img rescued.img rescue.map
+Scraping failed blocks... (forwards)
+  rescued:   62906 kB,   bad areas:        3,        run time:          0s
+pct rescued:   93.73%, read errors:     8202,  remaining time:         n/a
+Retrying bad sectors... Retry 1 (forwards)
+pct rescued:   93.73%, read errors:    16410,  remaining time:         n/a
+Retrying bad sectors... Retry 2 (backwards)
+pct rescued:   93.73%, read errors:    24618,  remaining time:         n/a
+Finished                                  
+
+$ ddrescuelog -t rescue.map
+
+   current pos:   10486 kB,  current status: finished
+mapfile extent:   67108 kB,  in      7 area(s)
+
+     non-tried:        0 B,  in      0 area(s)  (  0%)
+       rescued:   62906 kB,  in      4 area(s)  ( 93.74%)
+   non-trimmed:        0 B,  in      0 area(s)  (  0%)
+   non-scraped:        0 B,  in      0 area(s)  (  0%)
+    bad-sector:    4202 kB,  in      3 area(s)  (  6.26%)
+
+# Final mapfile (comments trimmed). Every failed
+# area is now a single bad-sector block:
+0x00A00200     +               2
+0x00000000  0x00A00000  +
+0x00A00000  0x00100000  -
+0x00B00000  0x01400000  +
+0x01F00000  0x00002000  -
+0x01F02000  0x012FE000  +
+0x03200000  0x00300000  -
+0x03500000  0x00B00000  +
+
+$ ddrescuelog -D rescue.map; echo "done-status exit: $?"
+done-status exit: 1

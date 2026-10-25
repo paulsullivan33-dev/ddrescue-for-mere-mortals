@@ -1,0 +1,30 @@
+# Merging two damaged copies of the same disk.
+# Copy A is dead at MiB 10 only; copy B is dead at
+# MiB 50-52 only. Neither alone can give a whole
+# file. The mapfile is what makes the merge work:
+# both runs write the same output and mapfile.
+
+$ ddrescue patientA.img merged.img merged.map
+pct rescued:   98.43%, read errors:     2064,  remaining time:          0s
+0x00AFFC00     +               1
+0x00000000  0x00A00000  +
+0x00A00000  0x00100000  -
+0x00B00000  0x03500000  +
+
+# A plain second run changes nothing (0 read
+# errors): areas already marked bad-sector are a
+# settled verdict, not re-read. The retry pass
+# is what reopens them:
+$ ddrescue patientB.img merged.img merged.map
+pct rescued:   98.43%, read errors:        0,  remaining time:         n/a
+
+$ ddrescue -r1 patientB.img merged.img merged.map
+pct rescued:  100.00%, read errors:        0,  remaining time:          0s
+0x00AFFE00     +               1
+0x00000000  0x04000000  +
+
+$ python3 ddrescue-lab/fixtures/compare-blocks.py original.img merged.img 4096
+block size:        4096 bytes
+blocks compared:   16384 (67108864 bytes)
+blocks identical:  16384 (67108864 bytes recovered)
+blocks differing:  0 (0 bytes lost)

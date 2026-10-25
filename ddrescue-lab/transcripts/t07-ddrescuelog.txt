@@ -1,0 +1,41 @@
+# ddrescuelog working on the real, finished mapfile
+# from t05.
+
+# Which 1 MiB blocks hold bad sectors? (-l lists
+# blocks of the given type; -b sets the block size
+# it counts in.)
+$ ddrescuelog -l - -b 1048576 rescue.map
+10
+31
+50
+51
+52
+# ...which reads as: MiB 10, MiB 31, and MiB 50-52
+# of the patient are damaged. At the default 512-byte
+# block size the same list is 8208 lines long:
+$ ddrescuelog -l - rescue.map | wc -l
+8208
+
+# The mapfile, annotated with human sizes (-A):
+$ ddrescuelog -A rescue.map | grep -v "^# Mapfile\|^# Command\|^# Start"
+# current_pos  current_status  current_pass
+0x00A00200     +               2	#  10486 kB
+#      pos        size  status
+0x00000000  0x00A00000  +	#         0 B    10485 kB
+0x00A00000  0x00100000  -	#    10485 kB     1048 kB
+0x00B00000  0x01400000  +	#    11534 kB    20971 kB
+0x01F00000  0x00002000  -	#    32505 kB      8192  
+0x01F02000  0x012FE000  +	#    32514 kB    19914 kB
+0x03200000  0x00300000  -	#    52428 kB     3145 kB
+0x03500000  0x00B00000  +	#    55574 kB    11534 kB
+
+# --delete-if-done on a COPY of the mapfile. The
+# rescue finished but lost bytes, so "done" (every
+# byte recovered) is false and the file survives:
+$ cp rescue.map rescue-done-test.map; ddrescuelog -d rescue-done-test.map; ls rescue-done-test.map
+rescue-done-test.map
+
+# The same on a perfect rescue (small.map, from an
+# undamaged 4 MiB file): the mapfile is deleted.
+$ cp small.map small-done-test.map; ddrescuelog -d small-done-test.map; ls small-done-test.map
+ls: cannot access 'small-done-test.map': No such file or directory

@@ -1,0 +1,26 @@
+# Why the lab has no real failing drive: the sandbox
+# kernel lists loop and device-mapper, but creating the
+# device nodes is refused.
+
+$ grep -E "loop|device-mapper" /proc/devices
+  7 loop
+252 device-mapper
+
+$ losetup -f
+losetup: cannot find an unused loop device: No such file or directory
+
+$ mknod /dev/loop-control c 10 237
+mknod: /dev/loop-control: Operation not permitted
+
+$ mknod /dev/loop0 b 7 0
+mknod: /dev/loop0: Operation not permitted
+
+$ ls /dev/fuse
+ls: cannot access '/dev/fuse': No such file or directory
+
+# No loop, no device-mapper, no FUSE. The lab therefore
+# declares its dead ranges to a small LD_PRELOAD shim
+# (ddrescue-lab/fixtures/fakedead.c) that answers reads
+# touching them with EIO -- the same answer a dying
+# drive gives. ddrescue cannot tell the difference,
+# because from its side of the glass there is none.

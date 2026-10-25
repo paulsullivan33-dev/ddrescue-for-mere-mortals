@@ -1,0 +1,47 @@
+# First pass over the whole patient. -n (--no-scrape):
+# copy everything readable, skip failures fast, and
+# leave the failed areas for later passes.
+$ ddrescue -n patient.img rescued.img rescue.map
+                              time since last successful read:          0s
+Trimming failed blocks... (forwards)[A[A[A[A[A[A     ipos:   55574 kB, non-trimmed:        0 B,  current rate:   5250 kB/s
+     opos:   55574 kB, non-scraped:    4199 kB,  average rate:  31453 kB/s
+non-tried:        0 B,  bad-sector:     3072 B,    error rate:   3508 kB/s
+  rescued:   62906 kB,   bad areas:        6,        run time:          1s
+pct rescued:   93.73%, read errors:       73,  remaining time:          1s
+                              time since last successful read:         n/a
+Finished                           
+
+$ cat rescue.map   (comments trimmed)
+0x03500000     +               1
+0x00000000  0x00A00000  +
+0x00A00000  0x00000200  -
+0x00A00200  0x000FFC00  /
+0x00AFFE00  0x00000200  -
+0x00B00000  0x01400000  +
+0x01F00000  0x00000200  -
+0x01F00200  0x00001C00  /
+0x01F01E00  0x00000200  -
+0x01F02000  0x012FE000  +
+0x03200000  0x00000200  -
+0x03200200  0x002FFC00  /
+0x034FFE00  0x00000200  -
+0x03500000  0x00B00000  +
+# Mapfile. Created by GNU ddrescue version 1.27
+# Command line: ddrescue -n patient.img rescued.img rescue.map
+# Start time:   2026-10-25 02:23:01
+# Current time: 2026-10-25 02:23:02
+# Finished
+
+$ ddrescuelog -t rescue.map
+
+   current pos:   55574 kB,  current status: finished
+mapfile extent:   67108 kB,  in     13 area(s)
+
+     non-tried:        0 B,  in      0 area(s)  (  0%)
+       rescued:   62906 kB,  in      4 area(s)  ( 93.74%)
+   non-trimmed:        0 B,  in      0 area(s)  (  0%)
+   non-scraped:    4199 kB,  in      3 area(s)  (  6.26%)
+    bad-sector:     3072 B,  in      6 area(s)  (  0.00%)
+
+$ ddrescuelog -D rescue.map; echo "done-status exit: $?"
+done-status exit: 1

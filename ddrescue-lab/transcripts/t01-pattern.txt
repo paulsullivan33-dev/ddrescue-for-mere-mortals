@@ -1,0 +1,75 @@
+$ python3 ddrescue-lab/fixtures/make-pattern.py original.img 64
+wrote original.img: 64 regions, 67108864 bytes
+
+$ ls -l original.img
+-rw-rw---- 1 root root 67108864 Oct 25 02:19 original.img
+
+# sha256 of each 1 MiB region of the original:
+region 00  4a2af817de5c6ec0
+region 01  ca049064c86881be
+region 02  4ad74e97ccb06a31
+region 03  701684e590936344
+region 04  a47458d8d748c724
+region 05  ed5331bd49d14eb9
+region 06  b1adb9e8d883bab1
+region 07  e8797366d81c5771
+region 08  85cd610c6120d217
+region 09  a94b61983c57b011
+region 10  c91e63cd47b9a5ca
+region 11  cd51e0c2dc765389
+region 12  03676395e67f0158
+region 13  30d9a080784aa8e9
+region 14  752baecbf78da6ca
+region 15  98eb9975410d26fa
+region 16  be793bbaf3f69e7b
+region 17  8045f9ebb89195e9
+region 18  e4ae12115b5fafc2
+region 19  c3846ca6823d8a18
+region 20  e863232250c25d04
+region 21  6069ddace6377ed0
+region 22  e559a457318117b1
+region 23  ce75a52cc5b65041
+region 24  b3e69feae68103d3
+region 25  37062452988cd9a2
+region 26  5d97ec10460be8c6
+region 27  0b0b7aede8feab00
+region 28  cfcec1112a7dc9f2
+region 29  f3f35a80f58cdfb4
+region 30  ca983028c2f258f5
+region 31  f2729bf1e45d5974
+region 32  28e348f1f4822ea0
+region 33  a2ccb1eb7ed31fb0
+region 34  aa83f71cb26ec271
+region 35  94a5682e513ef959
+region 36  92d280816d07cc7e
+region 37  9bcdf1826c164b99
+region 38  69b2ef4d8a0cd7a0
+region 39  d9574d0d7411d4d1
+region 40  87b171583a74d409
+region 41  c25bd1d34350514f
+region 42  cb1fa07aef12a7fc
+region 43  c7b405dc37ea0fab
+region 44  37f9a37b183ef39f
+region 45  653b0d86f3d6ecf4
+region 46  34bf73fffcfa65c9
+region 47  009182cafd8b2528
+region 48  46ab39031e0d8990
+region 49  7d108d30da593b5a
+region 50  d8b9b18d90ad7180
+region 51  1b979aee15f33861
+region 52  94adafcd246406cc
+region 53  07194aebf2b9b8c4
+region 54  3ef50bddcb401958
+region 55  88a5588eb05156e6
+region 56  a5ead85cf1a54cc3
+region 57  e84a93ee6bdceadb
+region 58  24a04e3a625e9a80
+region 59  0f031a9bd8061668
+region 60  818f13272869cf13
+region 61  f1c33f0ada26477e
+region 62  efae154fe7b4a3a1
+region 63  0b7fd835fcf0a1f8
+
+# first bytes of region 7 (offset 7 MiB):
+ddrescue lab pattern -- region 0007 of 0064 -- the rain in spain falls mainly on the plain --
+dd

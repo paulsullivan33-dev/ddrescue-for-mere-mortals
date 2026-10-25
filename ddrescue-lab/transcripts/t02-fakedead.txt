@@ -1,0 +1,23 @@
+$ gcc -O2 -shared -fPIC -o fakedead.so ddrescue-lab/fixtures/fakedead.c -ldl
+compiled
+
+# The patient is byte-for-byte the original. Its
+# dead ranges exist only in the shim environment:
+#   MiB 10        10485760-11534336   (1 MiB)
+#   MiB 31 +0     32505856-32514048   (8 KiB)
+#   MiB 50-52     52428800-55574528   (3 MiB)
+#   total dead: 4202496 bytes
+
+$ cp original.img patient.img   # the file itself is intact
+
+# Proof the errors are real read errors. head reads
+# the patient without the shim, all 20 MiB asked for:
+$ head -c 20000000 patient.img | wc -c
+20000000
+
+# And under the shim. head stops at exactly the
+# first dead byte, 10485760, with the error a dying
+# drive would give it:
+$ LD_PRELOAD=$PWD/fakedead.so head -c 20000000 patient.img | wc -c
+head: error reading 'patient.img': Input/output error
+10485760

@@ -1,0 +1,41 @@
+site_name: ddrescue for Mere Mortals
+site_description: Copying data off a drive that is failing, a little at a time and in the right order. The mapfile that remembers what is rescued, the passes that squeeze out the rest, working from a second damaged copy, and the honest accounting at the end.
+site_url: https://paulsullivan33-dev.github.io/ddrescue-for-mere-mortals/
+repo_url: https://github.com/paulsullivan33-dev/ddrescue-for-mere-mortals
+repo_name: GitHub
+edit_uri: edit/main/
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: teal
+      accent: deep orange
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+nav:
+  - Home: index.md
+  - What ddrescue Is: what-ddrescue-is.md
+  - The Moving Parts: the-moving-parts.md
+  - Installing ddrescue: installing-ddrescue.md
+  - Your First Rescue: your-first-rescue.md
+  - The Mapfile: the-mapfile.md
+  - The Phases in Depth: the-phases.md
+  - Stopping and Resuming: stopping-and-resuming.md
+  - Two Copies Are Better Than One: merging-copies.md
+  - After the Rescue: after-the-rescue.md
+  - Real Drives: real-drives.md
+  - Recipes: recipes.md
+  - The Neighbours: the-neighbours.md
+  - Limits: limits.md
+  - Troubleshooting: troubleshooting.md
+  - Glossary: glossary.md
+  - Writing Criteria: criteria.md

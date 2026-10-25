@@ -1,0 +1,23 @@
+$ ddrescue --version
+GNU ddrescue 1.27
+Copyright (C) 2023 Antonio Diaz Diaz.
+License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+$ ddrescuelog --version
+GNU ddrescuelog 1.27
+Copyright (C) 2023 Antonio Diaz Diaz.
+License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+$ dpkg-deb -f gddrescue_1.27-1_amd64.deb Package Version Architecture
+Package: gddrescue
+Version: 1.27-1
+Architecture: amd64
+
+# The package binary is run from the tree the .deb was
+# unpacked into, unmodified. Reason: eight sibling builds
+# share this machine apt/dpkg state; the install chapter
+# teaches the normal route, apt install gddrescue.
