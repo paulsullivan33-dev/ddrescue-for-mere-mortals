@@ -1,6 +1,7 @@
 site_name: ddrescue for Mere Mortals
 site_description: Copying data off a drive that is failing, a little at a time and in the right order. The mapfile that remembers what is rescued, the passes that squeeze out the rest, working from a second damaged copy, and the honest accounting at the end.
 site_url: https://paulsullivan33-dev.github.io/ddrescue-for-mere-mortals/
+copyright: 'Part of <a href="https://paulsullivan33-dev.github.io/mere-mortals/">For Mere Mortals</a> · Text <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code MIT'
 repo_url: https://github.com/paulsullivan33-dev/ddrescue-for-mere-mortals
 repo_name: GitHub
 edit_uri: edit/main/

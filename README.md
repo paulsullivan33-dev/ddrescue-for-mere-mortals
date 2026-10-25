@@ -97,3 +97,19 @@ follow-through. The recipes (chapter 11) assume the spine,
 and the troubleshooting chapter (14) is organised by the
 symptom you are staring at, because during a real rescue you
 will arrive there in a hurry.
+
+---
+
+## Part of the series
+
+This guide is one of the [For Mere Mortals](https://paulsullivan33-dev.github.io/mere-mortals/) guides: plain-language guides to the tools programmers and makers use.
+
+Related guides:
+
+- [Clonezilla for Mere Mortals](https://paulsullivan33-dev.github.io/clonezilla-for-mere-mortals/)
+- [Backups for Mere Mortals](https://paulsullivan33-dev.github.io/backups-for-mere-mortals/)
+- [Ncdu for Mere Mortals](https://paulsullivan33-dev.github.io/ncdu-for-mere-mortals/)
+
+## License
+
+The writing in this guide is licensed under [CC BY 4.0](https://github.com/paulsullivan33-dev/ddrescue-for-mere-mortals/blob/main/LICENSE). Code examples and lab scripts are licensed under the [MIT License](https://github.com/paulsullivan33-dev/ddrescue-for-mere-mortals/blob/main/LICENSE-CODE).
